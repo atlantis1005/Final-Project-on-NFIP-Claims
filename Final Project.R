@@ -71,4 +71,76 @@ write.csv(nfipNYC_sandy, "nfipNYC_sandy.csv", row.names=FALSE)
 
 write.csv(nfipNYC_ida, "nfipNYC_ida.csv", row.names=FALSE)
 
+census_api_key("3b79f2297b821c222a4a0c50536134944d3f9e91", install = TRUE)
+
+v12 <- load_variables(2012, "acs5", cache = TRUE)
+
+
+# B07011_001(median income total)
+#	B07012_002 (below 100% poverty level)
+
+acs12 <- get_acs(
+  geography = "zcta", 
+  variables = c( med_inc = "B07011_001",
+                 pov = "B07012_002",
+                 pop = "B01003_001"), 
+  state = "New York", 
+  output = "wide",
+  year = 2012, survey = "acs5") %>% 
+  mutate(zipcode = str_sub(NAME, 7, 11)) %>%
+  mutate( pov_pct = povE / popE) %>% 
+  clean_names()
+
+acs13 <- get_acs(
+  geography = "zcta", 
+  variables = c( med_inc = "B07011_001",
+                 pov = "B07012_002",
+                 pop = "B01003_001"), 
+  state = "New York", 
+  output = "wide",
+  year = 2013, survey = "acs5") %>% 
+  mutate(zipcode = str_sub(NAME, 7, 11)) %>%
+  mutate( pov_pct = povE / popE) %>% 
+  clean_names()
+
+acs14 <- get_acs(
+  geography = "zcta", 
+  variables = c( med_inc = "B07011_001",
+                 pov = "B07012_002",
+                 pop = "B01003_001"), 
+  state = "New York", 
+  output = "wide",
+  year = 2014, survey = "acs5") %>% 
+  mutate(zipcode = str_sub(NAME, 7, 11)) %>% 
+  mutate( pov_pct = povE / popE) %>% 
+  clean_names()
+
+acs21 <- get_acs(
+  geography = "zcta", 
+  variables = c( med_inc = "B07011_001",
+                 pov = "B07012_002",
+                 pop = "B01003_001"), 
+  output = "wide",
+  year = 2021, survey = "acs5") %>% 
+  mutate(zipcode = str_sub(NAME, 7, 11)) %>% 
+  mutate( pov_pct = povE / popE) %>% 
+   clean_names()
+
+acs22 <- get_acs(
+  geography = "zcta", 
+  variables = c( med_inc = "B07011_001",
+                 pov = "B07012_002",
+                 pop = "B01003_001"), 
+  output = "wide",
+  year = 2022, survey = "acs5") %>% 
+  mutate(zipcode = str_sub(NAME, 7, 11)) %>% 
+  mutate( pov_pct = povE / popE) %>% 
+  clean_names()
+
+
+
+
+
+
+
   
